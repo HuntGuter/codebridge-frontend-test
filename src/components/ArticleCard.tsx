@@ -1,4 +1,4 @@
-import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import type { Article } from '../features/articles/types';
 
@@ -10,16 +10,40 @@ export function ArticleCard({ article }: { article: Article }) {
     : article.summary;
 
   return (
-    <Card sx={{ mb: 2 }}>
-      <CardActionArea onClick={() => navigate(`/article/${article.id}`)}>
-        <CardContent>
-          <Typography variant='h6' gutterBottom>
+    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <CardActionArea 
+        sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'stretch'}}
+        onClick={() => navigate(`/article/${article.id}`)}
+      >
+        {article.image_url && (
+          <Box sx={{ height: 180, overflow: 'hidden' }}>
+            <CardMedia
+                component='img'
+                loading='lazy'
+                image={article.image_url}
+                alt={article.title}
+                sx={{ height: '100%', width: '100%', objectFit: 'cover' }}
+            />
+          </Box>
+        )}
+
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Typography variant='caption' color='text.secondary' display='block' gutterBottom>
+            {new Date(article.published_at).toLocaleDateString()}
+          </Typography>
+          <Typography variant="h6" component="h2" gutterBottom sx={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {article.title}
           </Typography>
-          <Typography variant='body2' color='text.secondary'>
+          <Typography variant="body2" color="text.secondary" sx={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {shortSummary}
           </Typography>
         </CardContent>
+
+        <Box sx={{ p: 2, pb: 2 }}>
+            <Typography variant="body2" fontWeight={800}>
+              Read more →
+            </Typography>
+        </Box>
       </CardActionArea>
     </Card>     
   );

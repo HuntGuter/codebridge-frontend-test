@@ -39,7 +39,7 @@ export function HomePage() {
       )}
 
       {!loading && !error && (
-        <Grid container spacing={2}>
+        <Grid container spacing={3} sx={{ mt: 1}}>
           {articles.map((article) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={article.id}>
               <ArticleCard article={article} />

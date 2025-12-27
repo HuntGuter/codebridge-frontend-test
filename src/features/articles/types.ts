@@ -3,6 +3,7 @@ export interface Article {
   title: string;
   summary: string;
   published_at: string;
+  image_url?: string;
 }
 
 export interface ArticlesResponse {
