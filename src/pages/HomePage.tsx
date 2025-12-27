@@ -1,6 +1,7 @@
-import { Container, Typography, CircularProgress, Alert } from '@mui/material';
+import { Container, Typography, CircularProgress, Alert, Grid } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { getArticles } from '../features/articles/api';
+import { ArticleCard } from '../components/ArticleCard';
 import type { Article } from '../features/articles/types';
 
 export function HomePage() {
@@ -37,11 +38,15 @@ export function HomePage() {
         <Typography>No articles found.</Typography>
       )}
 
-      {!loading && !error && articles.map((article) => (
-        <Typography key={article.id} variant='h6' gutterBottom>
-          {article.title}
-        </Typography>
-      ))}
+      {!loading && !error && (
+        <Grid container spacing={2}>
+          {articles.map((article) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={article.id}>
+              <ArticleCard article={article} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Container>
  );
 }
