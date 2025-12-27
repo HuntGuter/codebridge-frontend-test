@@ -1,4 +1,5 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography, Box } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Typography, Box, Button } from '@mui/material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from 'react-router-dom';
 import type { Article } from '../features/articles/types';
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
@@ -45,9 +46,15 @@ export function ArticleCard({ article }: { article: Article }) {
         </CardContent>
 
         <Box sx={{ p: 2, pb: 2 }}>
-            <Typography variant="body2" fontWeight={800}>
-              Read more →
-            </Typography>
+            <Button
+              endIcon={<ArrowForwardIcon />}
+              onClick={() => navigate(`/article/${article.id}`)}
+              size='small'
+              color='inherit'
+              sx={{ fontWeight: 800, textTransform: 'none' }}
+            >
+              Read more
+            </Button>
         </Box>
       </CardActionArea>
     </Card>     
