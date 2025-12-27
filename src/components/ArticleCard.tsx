@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import type { Article } from '../features/articles/types';
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import { formatDate } from "../utils/formatDate";
+import { highlightText } from '../utils/highlightText';
 
-export function ArticleCard({ article }: { article: Article }) {
+export function ArticleCard({ article, query }: { article: Article, query: string }) {
   const navigate = useNavigate();
 
   const shortSummary = article.summary.length > 100
@@ -38,10 +39,10 @@ export function ArticleCard({ article }: { article: Article }) {
             </Typography>
           </Box>
           <Typography variant="h6" component="h2" gutterBottom sx={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-            {article.title}
+            {highlightText(article.title, query)}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-            {shortSummary}
+            {highlightText(shortSummary, query)}
           </Typography>
         </CardContent>
 
