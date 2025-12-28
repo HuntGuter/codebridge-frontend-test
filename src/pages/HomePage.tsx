@@ -1,4 +1,4 @@
-import { Container, Typography, CircularProgress, Alert, Grid } from '@mui/material';
+import { Container, Typography, CircularProgress, Alert, Grid, Box, Button } from '@mui/material';
 import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { ArticleCard } from '../components/ArticleCard';
@@ -11,7 +11,9 @@ export function HomePage() {
     loading,
     error,
     query,
-    setQuery
+    setQuery,
+    loadMore,
+    hasMore
   } = useArticles();
 
   
@@ -42,14 +44,14 @@ export function HomePage() {
         Results: {articles.length}
       </Typography>
 
-      {loading && <CircularProgress />}
+      {loading && articles.length ===0 && <CircularProgress />}
       {error && <Alert severity='error'>{error}</Alert>}
 
       {!loading && !error && articles.length === 0 && (
         <Typography>No articles found.</Typography>
       )}
 
-      {!loading && !error && (
+      {!error && (
         <Grid container spacing={2} sx={{ mt: 1}}>
           {articles.map((article: Article) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={article.id}>
@@ -58,6 +60,21 @@ export function HomePage() {
           ))}
         </Grid>
       )}
+
+      {hasMore && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, mb: 2 }}>
+          <Button
+            variant='text'
+            onClick={loadMore}
+            disabled={loading}
+            size='small'
+            color='inherit'
+            sx={{ fontWeight: 800, textTransform: 'none' }}
+          >
+            {loading ? <CircularProgress /> : 'Load more'}
+          </Button>
+        </Box>
+        )}
     </Container>
  );
 }

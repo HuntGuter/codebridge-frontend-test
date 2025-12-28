@@ -1,28 +1,37 @@
-import { useState, useEffect, useMemo } from 'react';
-import { getArticles } from '../features/articles/api';
+import { useState, useEffect, useMemo, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from '../store/store';
+import { fetchArticles } from '../features/articles/articlesThunk';
 import type { Article } from '../features/articles/types';
 import { countKeywords } from '../utils/countKeywords';
 
 export function useArticles() {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [query, setQuery] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { 
+    articles, 
+    loading, 
+    error, 
+    hasMore, 
+    page, 
+    pageSize 
+  } = useSelector((state: RootState) => state.articles);
+
+  const [query, setQuery] = useState('');
+  const initialFetchDone = useRef(false);
 
   useEffect(() => {
-    setLoading(true);
+    if (!initialFetchDone.current && articles.length === 0) {
+      initialFetchDone.current = true;
+      dispatch(fetchArticles({ page: 1, pageSize }));
+    }
+  }, [dispatch, articles.length, pageSize]);
 
-    getArticles()
-      .then((data) => {
-        setArticles(data.results);
-      })
-      .catch((err) => {
-        setError(err.message ?? 'Failed to load articles');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  const loadMore = () => {
+    if (!loading && hasMore) {
+      dispatch(fetchArticles({ page: page, pageSize }));
+    }
+  };
 
   const keywords = query
     .toLowerCase()
@@ -31,7 +40,7 @@ export function useArticles() {
   
   const filteredArticles = useMemo(() => {
     return articles
-      .map((article) => {
+      .map((article: Article) => {
         const title = article.title.toLowerCase();
         const summary = article.summary.toLowerCase();
 
@@ -69,5 +78,7 @@ export function useArticles() {
     error,
     query,
     setQuery,
+    loadMore,
+    hasMore
   };
 }
