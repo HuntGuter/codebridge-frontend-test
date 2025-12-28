@@ -1,41 +1,12 @@
 import { Container, Typography, CircularProgress, Alert, Box, Button, Paper } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getArticleById } from '../features/articles/api';
-import type { Article } from '../features/articles/types';
-import { useEffect, useState } from 'react';
+import { useArticle } from '../hooks/useArticle';
 
 export function ArticlePage() {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const [article, setArticle] = useState<Article | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!id) return;
-
-    const articleId = Number(id);
-    if (Number.isNaN(articleId)) {
-      setError("Invalid article id");
-      return;
-    }
-
-    setLoading(true);
-
-    getArticleById(articleId)
-      .then((data) => {
-        setArticle(data);
-      })
-      .catch((err) => {
-        setError(err.message ?? "Failed to load article");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]);
-
+  const { article, loading, error } = useArticle(id);
 
   if (loading) {
     return (
