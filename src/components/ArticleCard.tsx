@@ -20,7 +20,7 @@ export function ArticleCard({ article, query }: { article: Article, query: strin
         onClick={() => navigate(`/article/${article.id}`)}
       >
         {article.image_url && (
-          <Box sx={{ height: 180, overflow: 'hidden' }}>
+          <Box sx={{ height: 140, overflow: 'hidden' }}>
             <CardMedia
                 component='img'
                 loading='lazy'
@@ -46,7 +46,7 @@ export function ArticleCard({ article, query }: { article: Article, query: strin
           </Typography>
         </CardContent>
 
-        <Box sx={{ p: 2, pb: 2 }}>
+        <Box sx={{ p: 2, pt: 0 }}>
             <Button
               endIcon={<ArrowForwardIcon />}
               onClick={() => navigate(`/article/${article.id}`)}

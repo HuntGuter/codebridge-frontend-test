@@ -17,7 +17,7 @@ export function HomePage() {
   
 
   return (
-    <Container sx={{ py: 4 }}>
+    <Container sx={{ py: 2 }}>
       <Typography sx={{ fontWeight: 800 }} gutterBottom>
         Filter by keywords
       </Typography>
@@ -50,7 +50,7 @@ export function HomePage() {
       )}
 
       {!loading && !error && (
-        <Grid container spacing={3} sx={{ mt: 1}}>
+        <Grid container spacing={2} sx={{ mt: 1}}>
           {articles.map((article: Article) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={article.id}>
               <ArticleCard article={article} query={query} />
