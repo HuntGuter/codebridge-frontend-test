@@ -10,7 +10,7 @@ export function ArticlePage() {
 
   if (loading) {
     return (
-      <Container sx={{ py: 4 }}>
+      <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%' }}>
         <CircularProgress />
       </Container>
     );
