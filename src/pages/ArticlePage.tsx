@@ -54,7 +54,7 @@ export function ArticlePage() {
               {article.title}
             </Typography>
 
-            <Typography variant='body1' sx={{ whiteSpace: 'pre-line', mb: 2 }}>
+            <Typography variant='body1' sx={{ whiteSpace: 'pre-line', mb: 2 }} className='article-summary'>
               {article.summary}
             </Typography>
           </Paper>
